@@ -1,15 +1,37 @@
 #!/bin/bash
 
-export CROSS_COMPILE=~/toolchain/aarch64-linux-android-4.9/bin/aarch64-linux-androidkernel-
-export CC=~/toolchain/clang-r383902/bin/clang
-export CLANG_TRIPLE=aarch64-linux-gnu-
-export ARCH=arm64
-export ANDROID_MAJOR_VERSION=r
+# Toolchain paths
+export CLANG_PATH=~/toolchain/clang-r383902
+export GCC_PATH=~/toolchain/aarch64-linux-android-4.9
 
+# Kernel build settings
+export ARCH=arm64
+export SUBARCH=arm64
+export CLANG_TRIPLE=aarch64-linux-gnu-
+export CROSS_COMPILE=aarch64-linux-android-
+export PATH=$CLANG_PATH/bin:$GCC_PATH/bin:$PATH
+
+# Optional: Suppress section mismatch warnings (use carefully)
 export KCFLAGS=-w
 export CONFIG_SECTION_MISMATCH_WARN_ONLY=y
 
-make -C $(pwd) O=$(pwd)/out KCFLAGS=-w CONFIG_SECTION_MISMATCH_WARN_ONLY=y merlin_defconfig
-make -C $(pwd) O=$(pwd)/out KCFLAGS=-w CONFIG_SECTION_MISMATCH_WARN_ONLY=y -j16
+# Clean old output (optional)
+# rm -rf out
 
-cp out/arch/arm64/boot/Image $(pwd)/arch/arm64/boot/Image
+# Configure the kernel
+make O=out merlin_defconfig
+
+# Build the kernel
+make -j$(nproc) \
+    O=out \
+    ARCH=$ARCH \
+    SUBARCH=$SUBARCH \
+    CC=clang \
+    CLANG_TRIPLE=$CLANG_TRIPLE \
+    CROSS_COMPILE=$CROSS_COMPILE \
+    LLVM=1 \
+    KCFLAGS="$KCFLAGS" \
+    CONFIG_SECTION_MISMATCH_WARN_ONLY=$CONFIG_SECTION_MISMATCH_WARN_ONLY
+
+# Copy the output image
+cp out/arch/arm64/boot/Image arch/arm64/boot/Image
