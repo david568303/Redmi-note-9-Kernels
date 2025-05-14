@@ -1,4 +1,4 @@
-!/bin/bash
+#!/bin/bash
 
 echo "Hi merlin user just wait and watch "
 
