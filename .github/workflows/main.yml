@@ -44,5 +44,6 @@ jobs:
     - name: Build Kernel
       run: |
         cd merlin-r-oss
+        chmod +x ./merlin.sh
         ./merlin.sh  # Replace with your actual build script
         
