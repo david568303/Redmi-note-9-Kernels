@@ -27,11 +27,6 @@ jobs:
         sudo ln -s /usr/local/bin/python2.7 /usr/local/bin/python2
         whereis python2.7
         whereis python2
-    - name: Cache Proton Clang
-      uses: actions/cache@v4
-      with:
-        path: ~/clang-15/aaa
-        key: ${{ runner.os }}-proton-clang
 
     - name: Set Up Toolchain
       run: |
@@ -40,7 +35,13 @@ jobs:
        else
          echo "Using cached Toolchain to reduce action time"
        fi
-
+       
+    - name: Cache Proton Clang
+      uses: actions/cache@v4
+      with:
+        path: ~/clang-15/aaa
+        key: ${{ runner.os }}-proton-clang
+    
     - name: Build Kernel
       run: |
         cd merlin-r-oss
