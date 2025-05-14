@@ -28,20 +28,22 @@ jobs:
         whereis python2.7
         whereis python2
 
-    - name: Set Up Toolchain
-      run: |
-         if [ "${{ steps.cache-proton-clang.outputs.cache-hit }}" != "true" ]; then
-           git clone https://gitlab.com/nayem8854/clang-r383902 ~/toolchain/clang-r383902
-           git clone https://github.com/KudProject/aarch64-linux-android-4.9.git ~/toolchain/aarch64-linux-android-4.9
-         else
-           echo "Using cached Toolchain to reduce action time"
-         fi
-
-    - name: Cache Toolchain
+    - name: Restore Toolchain Cache
+      id: cache-toolchain
       uses: actions/cache@v4
       with:
         path: ~/toolchain
         key: toolchain
+
+    - name: Set Up Toolchain
+      run: |
+         if [ "${{ steps.cache-toolchain.outputs.cache-hit }}" != "true" ]; then
+           echo "Toolchain not cached, cloning..."
+           git clone https://gitlab.com/nayem8854/clang-r383902 ~/toolchain/clang-r383902
+           git clone https://github.com/KudProject/aarch64-linux-android-4.9.git ~/toolchain/aarch64-linux-android-4.9
+         else
+           echo "Using cached Toolchain"
+         fi
     
     - name: Build Kernel
       run: |
