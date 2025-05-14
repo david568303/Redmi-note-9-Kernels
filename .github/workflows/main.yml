@@ -1,9 +1,6 @@
-name: Speed Kernel Upstream
-
+name: Redmi note 9 kernel
 on:
-  push:
-    branches: 
-      - speed-kernel-upstream
+  workflow_dispatch:
   
 jobs:
   build-kernel:
@@ -14,7 +11,7 @@ jobs:
     - name: Checkout Kernel Source
       uses: actions/checkout@v4
       with:
-        path: shas-dream-oc-mt6768  # Your repo's directory name
+        path: merlin-r-oss
 
     - name: Install Dependencies
       run: |
