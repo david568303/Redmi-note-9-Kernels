@@ -43,6 +43,6 @@ jobs:
 
     - name: Build Kernel
       run: |
-        cd shas-dream-oc-mt6768
+        cd merlin-r-oss
         ./merlin.sh  # Replace with your actual build script
         
