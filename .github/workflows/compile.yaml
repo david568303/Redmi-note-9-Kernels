@@ -1,0 +1,41 @@
+name: Redmi note 9 kernel BUILD
+on:
+  workflow_dispatch:
+  
+jobs:
+  build-kernel:
+    name: Build Kernel
+    runs-on: ubuntu-latest  # Uses Ubuntu runner
+
+    steps:
+    - name: Checkout Kernel Source
+      uses: actions/checkout@v4
+      with:
+        path: merlin-r-oss
+
+    - name: Install Dependencies
+      run: |
+        cd ~/
+        sudo apt-get update
+        sudo apt-get install -y git make gcc bc flex bison libelf-dev build-essential zlib1g-dev libncurses5-dev libbz2-dev libreadline-dev libsqlite3-dev wget curl llvm libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev libssl-dev
+        wget https://www.python.org/ftp/python/2.7.18/Python-2.7.18.tgz
+        tar xzf Python-2.7.18.tgz
+        cd Python-2.7.18
+        ./configure
+        make
+        sudo make altinstall
+        sudo ln -s /usr/local/bin/python2.7 /usr/local/bin/python2
+        whereis python2.7
+        whereis python2
+
+    - name: Set Up Toolchain
+      run: |
+         git clone https://gitlab.com/nayem8854/clang-r383902 ~/clang-r383902
+         git clone https://github.com/KudProject/aarch64-linux-android-4.9.git ~/aarch64-linux-android-4.9
+    
+    - name: Build Kernel
+      run: |
+        cd merlin-r-oss
+        chmod +x ./build.sh
+        ./build.sh  # Replace with your actual build script
+        
