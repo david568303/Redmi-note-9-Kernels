@@ -1,4 +1,4 @@
-name: Redmi note 9 kernel BUILD
+name: Redmi note 9 Stock kernel
 on:
   workflow_dispatch:
   
@@ -30,8 +30,18 @@ jobs:
 
     - name: Set Up Toolchain
       run: |
-         git clone https://gitlab.com/nayem8854/clang-r383902 ~/clang-r383902
-         git clone https://github.com/KudProject/aarch64-linux-android-4.9.git ~/aarch64-linux-android-4.9
+         if [ "${{ steps.cache-proton-clang.outputs.cache-hit }}" != "true" ]; then
+           git clone https://gitlab.com/nayem8854/clang-r383902 ~/toolchain/clang-r383902
+           git clone https://github.com/KudProject/aarch64-linux-android-4.9.git ~/toolchain/aarch64-linux-android-4.9
+         else
+           echo "Using cached Toolchain to reduce action time"
+         fi
+
+    - name: Cache Toolchain
+      uses: actions/cache@v4
+      with:
+        path: ~/toolchain
+        key: toolchain
     
     - name: Build Kernel
       run: |
