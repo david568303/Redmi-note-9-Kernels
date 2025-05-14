@@ -1,7 +1,7 @@
 #!/bin/bash
 
-export CROSS_COMPILE=~/aarch64-linux-android-4.9/bin/aarch64-linux-androidkernel-
-export CC=~/clang-r383902/bin/clang
+export CROSS_COMPILE=~/toolchain/aarch64-linux-android-4.9/bin/aarch64-linux-androidkernel-
+export CC=~/toolchain/clang-r383902/bin/clang
 export CLANG_TRIPLE=aarch64-linux-gnu-
 export ARCH=arm64
 export ANDROID_MAJOR_VERSION=r
