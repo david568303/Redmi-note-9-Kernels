@@ -51,12 +51,19 @@ jobs:
         chmod +x ./build.sh
         ./build.sh  # Replace with your actual build script
 
+    - name: Organize Output
+      run: |
+        cd merlin-r-oss
+        mv out/arch/arm64/boot/Image.gz output/Image.gz
+        mv out/arch/arm64/boot/dts/mediatek/mt6768.dtb output/kernel_dtb
+        mv out/arch/arm64/boot/Image.gz-dtb output/Image.gz-dtb
+
     - name: Upload kernel build artifacts
       uses: actions/upload-artifact@v4
       with:
         name: merlin-kernel-artifacts
         path: |
-          merlin-r-oss/out/arch/arm64/boot/Image.gz
-          merlin-r-oss/out/arch/arm64/boot/dts/mediatek/mt6768.dtb
-          merlin-r-oss/out/arch/arm64/boot/Image.gz-dtb
+          merlin-r-oss/output/Image.gz
+          merlin-r-oss/output/kernel_dtb
+          merlin-r-oss/output/Image.gz-dtb
 
