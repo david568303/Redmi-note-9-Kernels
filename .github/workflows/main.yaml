@@ -1,12 +1,11 @@
 name: Redmi note 9 Stock kernel
-
 on:
   workflow_dispatch:
   
 jobs:
   build-kernel:
     name: Build Kernel
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest  # Uses Ubuntu runner
 
     steps:
     - name: Checkout Kernel Source
@@ -29,49 +28,26 @@ jobs:
         whereis python2.7
         whereis python2
 
-    - name: Debug Toolchain Directory
-      run: |
-        echo "Listing files in ~/toolchain"
-        ls -R ~/toolchain
-
     - name: Restore Toolchain Cache
       id: cache-toolchain
       uses: actions/cache@v4
       with:
         path: ~/toolchain
-        key: toolchain-${{ runner.os }}-${{ github.sha }}
+        key: toolchain
 
     - name: Set Up Toolchain
       run: |
-        if [ "${{ steps.cache-toolchain.outputs.cache-hit }}" != "true" ]; then
-          echo "Toolchain not cached, cloning..."
-          git clone https://gitlab.com/nayem8854/clang-r383902 ~/toolchain/clang-r383902
-          git clone https://github.com/KudProject/aarch64-linux-android-4.9.git ~/toolchain/aarch64-linux-android-4.9
-        else
-          echo "Using cached Toolchain"
-        fi
+         if [ "${{ steps.cache-toolchain.outputs.cache-hit }}" != "true" ]; then
+           echo "Toolchain not cached, cloning..."
+           git clone https://gitlab.com/nayem8854/clang-r383902 ~/toolchain/clang-r383902
+           git clone https://github.com/KudProject/aarch64-linux-android-4.9.git ~/toolchain/aarch64-linux-android-4.9
+         else
+           echo "Using cached Toolchain"
+         fi
     
-    - name: Validate Toolchain Setup
-      run: |
-        echo "Checking if the toolchain directories exist"
-        if [ ! -d "~/toolchain/clang-r383902" ] || [ ! -d "~/toolchain/aarch64-linux-android-4.9" ]; then
-          echo "Toolchain directories are missing, something went wrong with cloning."
-          exit 1
-        else
-          echo "Toolchain directories are present."
-        fi
-
     - name: Build Kernel
       run: |
         cd merlin-r-oss
         chmod +x ./build.sh
         ./build.sh  # Replace with your actual build script
-
-    - name: Upload Kernel Artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: kernel-artifacts
-        path: |
-          merlin-r-oss/out/arch/arm64/boot/dts/mediatek/mt6768.dtb
-          merlin-r-oss/out/arch/arm64/boot/Image.gz-dtb
-        retention-days: 90
+        
