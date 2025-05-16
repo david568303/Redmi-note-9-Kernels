@@ -22,7 +22,7 @@ export CONFIG_SECTION_MISMATCH_WARN_ONLY=y
 make O=out merlin_defconfig
 
 # Build the kernel
-make -j$(nproc) \
+make -j$(nproc --all) \
     O=out \
     ARCH=$ARCH \
     SUBARCH=$SUBARCH \
@@ -31,7 +31,6 @@ make -j$(nproc) \
     CROSS_COMPILE=$CROSS_COMPILE \
     LLVM=1 \
     KCFLAGS="$KCFLAGS" \
-    CONFIG_SECTION_MISMATCH_WARN_ONLY=$CONFIG_SECTION_MISMATCH_WARN_ONLY
 
 # Copy the output image
 cp out/arch/arm64/boot/Image arch/arm64/boot/Image
