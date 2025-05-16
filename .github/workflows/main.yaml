@@ -57,6 +57,7 @@ jobs:
         mkdir output
         mv out/arch/arm64/boot/dts/mediatek/mt6768.dtb output/kernel_dtb
         zcat out/arch/arm64/boot/Image.gz > output/kernel
+        mv out/arch/arm64/boot/Image.gz-dtb output/Image.gz-dtb
 
     - name: Upload kernel build artifacts
       uses: actions/upload-artifact@v4
@@ -65,4 +66,5 @@ jobs:
         path: |
           merlin-r-oss/output/kernel
           merlin-r-oss/output/kernel_dtb
+          merlin-r-oss/output/Image.gz-dtb
 
