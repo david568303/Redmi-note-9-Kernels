@@ -248,7 +248,7 @@ config ANDROID_DEFAULT_SETTING
 	select TUN
 	select UHID
 	select UID_SYS_STATS
-	select CONFIG_SERIAL_NUM
+	select SERIAL_NUM
 	select UNIX
 	select UNMAP_KERNEL_AT_EL0
 	select USB
