@@ -1,7 +1,5 @@
 #!/bin/bash
 
-cd ..
-
 # Toolchain paths
 export CLANG_PATH=~/toolchain/clang-r383902
 export GCC_PATH=~/toolchain/aarch64-linux-android-4.9
