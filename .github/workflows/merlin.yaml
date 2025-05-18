@@ -1,4 +1,4 @@
-name: Redmi note 9 Stock kernel
+name: Build merlin
 on:
   workflow_dispatch:
   
@@ -47,9 +47,9 @@ jobs:
     
     - name: Build Kernel
       run: |
-        cd merlin-r-oss
-        chmod +x ./build.sh
-        ./build.sh  # Replace with your actual build script
+        cd merlin-r-oss/action_scripts
+        chmod +x ./merlin.sh
+        ./merlin.sh  # Replace with your actual build script
 
     - name: Organize Output
       run: |
