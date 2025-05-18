@@ -48,8 +48,8 @@ jobs:
     - name: Build Kernel
       run: |
         cd merlin-r-oss/action_scripts
-        chmod +x ./merlin.sh
-        ./merlin.sh  # Replace with your actual build script
+        chmod +x ./action_scripts/merlin.sh
+        ./action_scripts/merlin.sh  # Replace with your actual build script
 
     - name: Organize Output
       run: |
