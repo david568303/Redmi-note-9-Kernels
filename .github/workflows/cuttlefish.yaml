@@ -47,9 +47,9 @@ jobs:
     
     - name: Build Kernel
       run: |
-        cd merlin-r-oss/action_scripts
-        chmod +x ./cuttlefish.sh
-        ./cuttlefish.sh  # Replace with your actual build script
+        cd merlin-r-oss
+        chmod +x ./action_script/scuttlefish.sh
+        ./action_script/cuttlefish.sh  # Replace with your actual build script
 
     - name: Organize Output
       run: |
